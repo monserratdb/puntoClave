@@ -1,0 +1,26 @@
+<% content_for :title, "Jugadores ATP - PuntoClave" %>
+<div class="container py-4">
+  <h2 class="mb-4">Jugadores ATP</h2>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Nombre</th>
+        <th>Pais</th>
+        <th>Puntos</th>
+        <th>Win %</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @players.each do |player| %>
+        <tr>
+          <td><%= player.rank %></td>
+          <td><%= player.name %></td>
+          <td><%= player.country %></td>
+          <td><%= player.points %></td>
+          <td><%= player.win_percentage %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

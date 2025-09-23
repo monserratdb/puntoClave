@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player1: one
+  player2: one
+  predicted_winner: one
+  confidence: 9.99
+  prediction_date: 2025-09-23 16:35:53
+
+two:
+  player1: two
+  player2: two
+  predicted_winner: two
+  confidence: 9.99
+  prediction_date: 2025-09-23 16:35:53

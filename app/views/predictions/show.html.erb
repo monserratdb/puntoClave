@@ -1,0 +1,173 @@
+<div class="row justify-content-center">
+  <div class="col-lg-10">
+    <div class="card shadow">
+      <div class="card-header bg-gradient text-white text-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <h2 class="card-title mb-0">🏆 Predicción PuntoClave</h2>
+      </div>
+      <div class="card-body p-4">
+        
+        <!-- Match Overview -->
+        <div class="row text-center mb-4">
+          <div class="col-md-5">
+            <div class="player-card">
+              <h3 class="mb-2"><%= @player1.name %></h3>
+              <div class="player-stats">
+                <span class="badge bg-primary">Rank: #<%= @player1.rank || 'N/A' %></span>
+                <span class="badge bg-info">Points: <%= @player1.points || 0 %></span>
+                <br>
+                <small class="text-muted"><%= @player1.country %></small>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-2 d-flex align-items-center justify-content-center">
+            <h1 class="text-muted">VS</h1>
+          </div>
+          
+          <div class="col-md-5">
+            <div class="player-card">
+              <h3 class="mb-2"><%= @player2.name %></h3>
+              <div class="player-stats">
+                <span class="badge bg-primary">Rank: #<%= @player2.rank || 'N/A' %></span>
+                <span class="badge bg-info">Points: <%= @player2.points || 0 %></span>
+                <br>
+                <small class="text-muted"><%= @player2.country %></small>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Prediction Result -->
+        <div class="row justify-content-center mb-4">
+          <div class="col-md-8">
+            <div class="alert alert-success text-center py-4">
+              <h2 class="mb-3">🎯 Predicted Winner</h2>
+              <h1 class="display-4 text-success mb-3"><%= @prediction_result[:predicted_winner].name %></h1>
+              <h4>Confidence: <span class="badge bg-success fs-5"><%= number_to_percentage(@prediction_result[:confidence] * 100, precision: 1) %></span></h4>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Win Probability Bars -->
+        <div class="row">
+          <div class="col-12">
+            <h5 class="mb-3">Win Probability</h5>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span><strong><%= @player1.name %></strong></span>
+                <span><%= number_to_percentage(@prediction_result[:player1_probability] * 100, precision: 1) %></span>
+              </div>
+              <div class="progress" style="height: 25px;">
+                <div class="progress-bar bg-primary" role="progressbar" 
+                     style="width: <%= @prediction_result[:player1_probability] * 100 %>%">
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span><strong><%= @player2.name %></strong></span>
+                <span><%= number_to_percentage(@prediction_result[:player2_probability] * 100, precision: 1) %></span>
+              </div>
+              <div class="progress" style="height: 25px;">
+                <div class="progress-bar bg-warning" role="progressbar" 
+                     style="width: <%= @prediction_result[:player2_probability] * 100 %>%">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Additional Information -->
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h6 class="card-title mb-0">Prediction Factors</h6>
+              </div>
+              <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                  <li class="mb-2">📊 <strong>Current Rankings:</strong> Official ATP positions</li>
+                  <li class="mb-2">🏆 <strong>ATP Points:</strong> Tournament performance points</li>
+                  <li class="mb-2">📈 <strong>Recent Form:</strong> Last 10 matches performance</li>
+                  <li class="mb-2">⚔️ <strong>Head-to-Head:</strong> Historical match results</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h6 class="card-title mb-0">Player Statistics</h6>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-6">
+                    <h6><%= @player1.name %></h6>
+                    <p class="mb-1">Rank: #<%= @player1.rank || 'N/A' %></p>
+                    <p class="mb-1">Points: <%= @player1.points || 0 %></p>
+                    <p class="mb-0">Win Rate: <%= @player1.win_percentage %>%</p>
+                  </div>
+                  <div class="col-6">
+                    <h6><%= @player2.name %></h6>
+                    <p class="mb-1">Rank: #<%= @player2.rank || 'N/A' %></p>
+                    <p class="mb-1">Points: <%= @player2.points || 0 %></p>
+                    <p class="mb-0">Win Rate: <%= @player2.win_percentage %>%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="row mt-4">
+          <div class="col-12 text-center">
+            <%= link_to "Make Another Prediction", root_path, class: "btn btn-primary btn-lg me-3" %>
+            <button class="btn btn-outline-secondary btn-lg" onclick="window.print()">
+              📄 Print Results
+            </button>
+          </div>
+        </div>
+        
+        <!-- Future Matches CTA -->
+        <div class="row justify-content-center mb-4">
+          <div class="col-md-8 text-center">
+            <a href="/predictions/#{@prediction_result[:predicted_winner].id}/future_matches" class="btn btn-primary btn-lg">
+              <i class="fas fa-calendar-alt me-2"></i>Ver futuros partidos entre <%= @player1.name %> y <%= @player2.name %>
+            </a>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.player-card {
+  padding: 20px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px solid #dee2e6;
+}
+
+.player-stats .badge {
+  margin: 2px;
+}
+
+.progress {
+  border-radius: 15px;
+}
+
+.progress-bar {
+  border-radius: 15px;
+}
+
+@media print {
+  .btn { display: none !important; }
+  .navbar { display: none !important; }
+}
+</style>

@@ -1,0 +1,30 @@
+<% content_for :title, "Partidos ATP - PuntoClave" %>
+<div class="container py-4">
+  <h2 class="mb-4">Partidos ATP Analizados</h2>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Torneo</th>
+        <th>Jugador 1</th>
+        <th>Jugador 2</th>
+        <th>Ganador</th>
+        <th>Score</th>
+        <th>Superficie</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @matches.each do |match| %>
+        <tr>
+          <td><%= match.date %></td>
+          <td><%= match.tournament %></td>
+          <td><%= match.player1.name %></td>
+          <td><%= match.player2.name %></td>
+          <td><%= match.winner.name %></td>
+          <td><%= match.score %></td>
+          <td><%= match.surface %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,466 @@
+=> 
+[{[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fc1e0[0m
+    id: [34m[1m5[0m,
+    name: [31m[1m"[0m[31mAndrey Rublev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m5[0m,
+    points: [34m[1m4805[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af5105faa20[0m
+    id: [34m[1m10[0m,
+    name: [31m[1m"[0m[31mAlex de Minaur[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mAustralia[0m[31m[1m"[0m,
+    rank: [34m[1m10[0m,
+    points: [34m[1m3745[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.875957000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.875957000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af5105fc1e0[0m
+    id: [34m[1m5[0m,
+    name: [31m[1m"[0m[31mAndrey Rublev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m5[0m,
+    points: [34m[1m4805[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mAustralian Open[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Mon, 25 Aug 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m7-6, 7-6[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mHard[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fbe20[0m
+    id: [34m[1m8[0m,
+    name: [31m[1m"[0m[31mCasper Ruud[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mNorway[0m[31m[1m"[0m,
+    rank: [34m[1m8[0m,
+    points: [34m[1m4225[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.865456000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.865456000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af5105f8860[0m
+    id: [34m[1m1[0m,
+    name: [31m[1m"[0m[31mNovak Djokovic[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mSerbia[0m[31m[1m"[0m,
+    rank: [34m[1m1[0m,
+    points: [34m[1m8795[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.821759000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.821759000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af5105fbe20[0m
+    id: [34m[1m8[0m,
+    name: [31m[1m"[0m[31mCasper Ruud[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mNorway[0m[31m[1m"[0m,
+    rank: [34m[1m8[0m,
+    points: [34m[1m4225[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.865456000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.865456000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mAustralian Open[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Sun, 31 Aug 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m6-3, 4-6, 6-2[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mClay[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fc320[0m
+    id: [34m[1m4[0m,
+    name: [31m[1m"[0m[31mJannik Sinner[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mItaly[0m[31m[1m"[0m,
+    rank: [34m[1m4[0m,
+    points: [34m[1m6490[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.835730000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.835730000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af5105f6920[0m
+    id: [34m[1m10[0m,
+    name: [31m[1m"[0m[31mAlex de Minaur[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mAustralia[0m[31m[1m"[0m,
+    rank: [34m[1m10[0m,
+    points: [34m[1m3745[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.875957000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.875957000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af5105fc320[0m
+    id: [34m[1m4[0m,
+    name: [31m[1m"[0m[31mJannik Sinner[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mItaly[0m[31m[1m"[0m,
+    rank: [34m[1m4[0m,
+    points: [34m[1m6490[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.835730000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.835730000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mFrench Open[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Wed, 10 Sep 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m6-3, 4-6, 6-2[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mHard[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fc6e0[0m
+    id: [34m[1m1[0m,
+    name: [31m[1m"[0m[31mNovak Djokovic[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mSerbia[0m[31m[1m"[0m,
+    rank: [34m[1m1[0m,
+    points: [34m[1m8795[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.821759000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.821759000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af5105f53e0[0m
+    id: [34m[1m10[0m,
+    name: [31m[1m"[0m[31mAlex de Minaur[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mAustralia[0m[31m[1m"[0m,
+    rank: [34m[1m10[0m,
+    points: [34m[1m3745[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.875957000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.875957000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af5105fc6e0[0m
+    id: [34m[1m1[0m,
+    name: [31m[1m"[0m[31mNovak Djokovic[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mSerbia[0m[31m[1m"[0m,
+    rank: [34m[1m1[0m,
+    points: [34m[1m8795[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.821759000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.821759000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mATP 500[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Thu, 11 Sep 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m6-1, 6-2[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mClay[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fc1e0[0m
+    id: [34m[1m5[0m,
+    name: [31m[1m"[0m[31mAndrey Rublev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m5[0m,
+    points: [34m[1m4805[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af5105f44e0[0m
+    id: [34m[1m4[0m,
+    name: [31m[1m"[0m[31mJannik Sinner[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mItaly[0m[31m[1m"[0m,
+    rank: [34m[1m4[0m,
+    points: [34m[1m6490[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.835730000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.835730000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af5105fc1e0[0m
+    id: [34m[1m5[0m,
+    name: [31m[1m"[0m[31mAndrey Rublev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m5[0m,
+    points: [34m[1m4805[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mFrench Open[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Sun, 21 Sep 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m6-4, 6-2[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mHard[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fc0a0[0m
+    id: [34m[1m6[0m,
+    name: [31m[1m"[0m[31mStefanos Tsitsipas[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mGreece[0m[31m[1m"[0m,
+    rank: [34m[1m6[0m,
+    points: [34m[1m4755[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.845917000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.845917000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af5105f2aa0[0m
+    id: [34m[1m9[0m,
+    name: [31m[1m"[0m[31mTaylor Fritz[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mUSA[0m[31m[1m"[0m,
+    rank: [34m[1m9[0m,
+    points: [34m[1m4045[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.870384000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.870384000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af5105fc0a0[0m
+    id: [34m[1m6[0m,
+    name: [31m[1m"[0m[31mStefanos Tsitsipas[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mGreece[0m[31m[1m"[0m,
+    rank: [34m[1m6[0m,
+    points: [34m[1m4755[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.845917000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.845917000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mAustralian Open[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Sun, 21 Sep 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m7-6, 7-6[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mClay[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fbe20[0m
+    id: [34m[1m8[0m,
+    name: [31m[1m"[0m[31mCasper Ruud[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mNorway[0m[31m[1m"[0m,
+    rank: [34m[1m8[0m,
+    points: [34m[1m4225[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.865456000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.865456000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af5105f17e0[0m
+    id: [34m[1m6[0m,
+    name: [31m[1m"[0m[31mStefanos Tsitsipas[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mGreece[0m[31m[1m"[0m,
+    rank: [34m[1m6[0m,
+    points: [34m[1m4755[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.845917000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.845917000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af5105f17e0[0m
+    id: [34m[1m6[0m,
+    name: [31m[1m"[0m[31mStefanos Tsitsipas[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mGreece[0m[31m[1m"[0m,
+    rank: [34m[1m6[0m,
+    points: [34m[1m4755[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.845917000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.845917000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mFrench Open[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Wed, 17 Sep 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m6-1, 6-2[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mGrass[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fc6e0[0m
+    id: [34m[1m1[0m,
+    name: [31m[1m"[0m[31mNovak Djokovic[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mSerbia[0m[31m[1m"[0m,
+    rank: [34m[1m1[0m,
+    points: [34m[1m8795[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.821759000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.821759000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af5105f0520[0m
+    id: [34m[1m5[0m,
+    name: [31m[1m"[0m[31mAndrey Rublev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m5[0m,
+    points: [34m[1m4805[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af5105fc6e0[0m
+    id: [34m[1m1[0m,
+    name: [31m[1m"[0m[31mNovak Djokovic[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mSerbia[0m[31m[1m"[0m,
+    rank: [34m[1m1[0m,
+    points: [34m[1m8795[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.821759000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.821759000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mFrench Open[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Thu, 04 Sep 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m6-1, 6-2[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mClay[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fc320[0m
+    id: [34m[1m4[0m,
+    name: [31m[1m"[0m[31mJannik Sinner[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mItaly[0m[31m[1m"[0m,
+    rank: [34m[1m4[0m,
+    points: [34m[1m6490[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.835730000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.835730000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af51049e9d8[0m
+    id: [34m[1m9[0m,
+    name: [31m[1m"[0m[31mTaylor Fritz[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mUSA[0m[31m[1m"[0m,
+    rank: [34m[1m9[0m,
+    points: [34m[1m4045[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.870384000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.870384000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af5105fc320[0m
+    id: [34m[1m4[0m,
+    name: [31m[1m"[0m[31mJannik Sinner[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mItaly[0m[31m[1m"[0m,
+    rank: [34m[1m4[0m,
+    points: [34m[1m6490[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.835730000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.835730000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mATP 500[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Fri, 05 Sep 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m6-4, 6-2[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mHard[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fbce0[0m
+    id: [34m[1m9[0m,
+    name: [31m[1m"[0m[31mTaylor Fritz[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mUSA[0m[31m[1m"[0m,
+    rank: [34m[1m9[0m,
+    points: [34m[1m4045[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.870384000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.870384000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af51049d858[0m
+    id: [34m[1m5[0m,
+    name: [31m[1m"[0m[31mAndrey Rublev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m5[0m,
+    points: [34m[1m4805[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af51049d858[0m
+    id: [34m[1m5[0m,
+    name: [31m[1m"[0m[31mAndrey Rublev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m5[0m,
+    points: [34m[1m4805[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mWimbledon[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Mon, 15 Sep 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m7-6, 6-3[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mGrass[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fbe20[0m
+    id: [34m[1m8[0m,
+    name: [31m[1m"[0m[31mCasper Ruud[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mNorway[0m[31m[1m"[0m,
+    rank: [34m[1m8[0m,
+    points: [34m[1m4225[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.865456000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.865456000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af51049bf58[0m
+    id: [34m[1m9[0m,
+    name: [31m[1m"[0m[31mTaylor Fritz[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mUSA[0m[31m[1m"[0m,
+    rank: [34m[1m9[0m,
+    points: [34m[1m4045[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.870384000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.870384000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af51049bf58[0m
+    id: [34m[1m9[0m,
+    name: [31m[1m"[0m[31mTaylor Fritz[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mUSA[0m[31m[1m"[0m,
+    rank: [34m[1m9[0m,
+    points: [34m[1m4045[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.870384000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.870384000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mUS Open[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Wed, 17 Sep 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m7-5, 6-4[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mGrass[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fc460[0m
+    id: [34m[1m3[0m,
+    name: [31m[1m"[0m[31mDaniil Medvedev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m3[0m,
+    points: [34m[1m7555[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.832053000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.832053000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af51049ac98[0m
+    id: [34m[1m7[0m,
+    name: [31m[1m"[0m[31mRafael Nadal[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mSpain[0m[31m[1m"[0m,
+    rank: [34m[1m7[0m,
+    points: [34m[1m4540[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.850362000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.850362000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af5105fc460[0m
+    id: [34m[1m3[0m,
+    name: [31m[1m"[0m[31mDaniil Medvedev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m3[0m,
+    points: [34m[1m7555[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.832053000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.832053000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mFrench Open[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Wed, 27 Aug 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m6-1, 6-2[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mClay[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fc1e0[0m
+    id: [34m[1m5[0m,
+    name: [31m[1m"[0m[31mAndrey Rublev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m5[0m,
+    points: [34m[1m4805[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.841360000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af510499b18[0m
+    id: [34m[1m3[0m,
+    name: [31m[1m"[0m[31mDaniil Medvedev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m3[0m,
+    points: [34m[1m7555[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.832053000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.832053000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af510499b18[0m
+    id: [34m[1m3[0m,
+    name: [31m[1m"[0m[31mDaniil Medvedev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m3[0m,
+    points: [34m[1m7555[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.832053000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.832053000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mAustralian Open[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Sun, 31 Aug 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m6-4, 6-2[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mGrass[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fbe20[0m
+    id: [34m[1m8[0m,
+    name: [31m[1m"[0m[31mCasper Ruud[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mNorway[0m[31m[1m"[0m,
+    rank: [34m[1m8[0m,
+    points: [34m[1m4225[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.865456000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.865456000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af5104985d8[0m
+    id: [34m[1m3[0m,
+    name: [31m[1m"[0m[31mDaniil Medvedev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m3[0m,
+    points: [34m[1m7555[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.832053000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.832053000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af5104985d8[0m
+    id: [34m[1m3[0m,
+    name: [31m[1m"[0m[31mDaniil Medvedev[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mRussia[0m[31m[1m"[0m,
+    rank: [34m[1m3[0m,
+    points: [34m[1m7555[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.832053000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.832053000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mFrench Open[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Sat, 30 Aug 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m6-4, 6-2[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mClay[0m[31m[1m"[0m},
+ {[33m:[0m[33mplayer1[0m=>
+   [32m#<Player:0x00007af5105fbe20[0m
+    id: [34m[1m8[0m,
+    name: [31m[1m"[0m[31mCasper Ruud[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mNorway[0m[31m[1m"[0m,
+    rank: [34m[1m8[0m,
+    points: [34m[1m4225[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.865456000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.865456000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mplayer2[0m=>
+   [32m#<Player:0x00007af510496cd8[0m
+    id: [34m[1m6[0m,
+    name: [31m[1m"[0m[31mStefanos Tsitsipas[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mGreece[0m[31m[1m"[0m,
+    rank: [34m[1m6[0m,
+    points: [34m[1m4755[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.845917000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.845917000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mwinner[0m=>
+   [32m#<Player:0x00007af510496cd8[0m
+    id: [34m[1m6[0m,
+    name: [31m[1m"[0m[31mStefanos Tsitsipas[0m[31m[1m"[0m,
+    country: [31m[1m"[0m[31mGreece[0m[31m[1m"[0m,
+    rank: [34m[1m6[0m,
+    points: [34m[1m4755[0m,
+    created_at: [31m[1m"[0m[31m2025-09-23 19:44:40.845917000 +0000[0m[31m[1m"[0m,
+    updated_at: [31m[1m"[0m[31m2025-09-23 19:44:40.845917000 +0000[0m[31m[1m"[0m[32m>[0m,
+  [33m:[0m[33mtournament[0m=>[31m[1m"[0m[31mUS Open[0m[31m[1m"[0m,
+  [33m:[0m[33mdate[0m=>Fri, 19 Sep 2025,
+  [33m:[0m[33mscore[0m=>[31m[1m"[0m[31m6-4, 6-2[0m[31m[1m"[0m,
+  [33m:[0m[33msurface[0m=>[31m[1m"[0m[31mClay[0m[31m[1m"[0m}]

@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  player1: one
+  player2: one
+  winner: one
+  tournament: MyString
+  date: 2025-09-23
+  score: MyString
+  surface: MyString
+
+two:
+  player1: two
+  player2: two
+  winner: two
+  tournament: MyString
+  date: 2025-09-23
+  score: MyString
+  surface: MyString
