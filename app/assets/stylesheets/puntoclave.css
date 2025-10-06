@@ -1,6 +1,6 @@
 /* PuntoClave custom styles */
 :root{
-  --brand:#155FCBFF; /* deep blue primary */
+  --brand:#155FCB; /* deep blue primary */
   --green:#20c997; /* secondary green */
   --orange:#ff7a00; /* accent orange */
   --accent: var(--orange);

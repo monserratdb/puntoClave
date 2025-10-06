@@ -35,24 +35,45 @@ Por simplicidad y fiabilidad usamos ESPN como fuente primaria. Por defecto, se c
 
 Opciones para poblar la base de datos con datos (elige una):
 
-- Usar la tarea Rake (recomendada para inicializar desde cero):
+- 1) Usar la tarea Rake (recomendada para inicializar desde cero)
 
 ```bash
 # Crear DB y migrar (si no lo hiciste aun)
 bin/rails db:create db:migrate
 
-# Ejecutar scraping que poblará jugadores y partidos (usa ESPN)
+# Ejecutar scraping que poblará jugadores y partidos (ESPN para rankings; matches intentará 365Scores o ESPN)
 bin/rails db:scrape:initial
 ```
 
-- O usar la consola Rails (método manual, equivalente):
+- 2) Usar la consola Rails (método manual, equivalente)
 
 ```bash
 bundle exec rails console
+# Traer y guardar/update los jugadores desde ESPN
 TennisApiService.new.fetch_atp_rankings
+
+# Traer partidos recientes/próximos (ej. 30)
 TennisApiService.new.fetch_recent_matches(30)
 exit
 ```
+
+- 3) Tareas automatizadas / daemon (sincronización periódica)
+
+```bash
+# Ejecuta un proceso que sincroniza jugadores y partidos en bucle (para desarrollo)
+bundle exec rails scrape:daemon
+
+# Cambiar intervalo (en minutos)
+SCRAPE_INTERVAL_MINUTES=15 bundle exec rails scrape:daemon
+
+# Reemplazo destructivo de jugadores desde ESPN (usar con cuidado)
+# FORMA SEGURA: fuerza con la variable de entorno
+FORCE_REPLACE=true bundle exec rails scrape:daemon
+```
+
+Notas rápidas:
+- `bin/rails db:scrape:initial` y `scrape:daemon` usan `TennisApiService`. El servicio prioriza ESPN para rankings y tratará 365Scores para partidos pero 365Scores puede requerir renderizado JS y resultar menos fiable. Si 365Scores falla, el servicio cae de nuevo a ESPN cuando sea posible.
+- Si la tabla `players` tiene que reemplazarse completamente (destructivo), siempre establece `FORCE_REPLACE=true` en el entorno antes de ejecutar la tarea.
 
 ### 4. Inicia el servidor
 ```bash
@@ -67,6 +88,8 @@ Para obtener datos reales y actualizados, puedes usar Selenium:
 - Instala Chrome y Chromedriver
 - Agrega los gems `selenium-webdriver` y `webdrivers` al Gemfile
 - Usa el servicio `SeleniumAtpScraper` para poblar la base de datos
+
+Si 365Scores no responde (sitio JS-heavy), la opción más robusta es usar la estrategia de ESPN (calendario/JSON integrado) que ya está implementada en `TennisApiService`.
 
 ## Scraping daemon (refresh ESPN players and 365Scores matches)
 
