@@ -1,0 +1,111 @@
+<div class="row justify-content-center">
+  <div class="col-lg-10">
+    <div class="card">
+      <div class="card-header">
+        <h3>Próximos partidos: <%= @player1.name %> vs <%= @player2.name %></h3>
+        <p class="mb-0 text-muted">Fuente: ESPN (si está disponible)</p>
+      </div>
+      <div class="card-body">
+        <% if @upcoming.blank? %>
+          <div class="alert alert-info">No se encontraron próximos partidos entre estos jugadores.</div>
+        <% else %>
+          <% if !@used_real_fixtures %>
+            <div class="alert alert-warning">No se encontraron partidos reales próximos entre estos jugadores en ESPN. Mostrando partidos de ejemplo generados automáticamente. Si querés solo el próximo partido, hacé clic en "Mostrar sólo el próximo".</div>
+            <div class="mb-3">
+              <%= button_to 'Mostrar sólo el próximo', future_matches_prediction_path(@player1, player2_id: @player2.id, only_next: true), method: :get, class: 'btn btn-sm btn-outline-primary' %>
+            </div>
+          <% end %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Torneo</th>
+                <th>Surface</th>
+                <th><%= @player1.name %></th>
+                <th><%= @player2.name %></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @upcoming.each do |m| %>
+                <tr>
+                  <td><%= l(m[:date]) rescue m[:date].to_s %></td>
+                  <td><%= m[:tournament] %></td>
+                  <td><%= m[:surface] %></td>
+                  <td><%= number_to_percentage(m[:player1_probability], precision: 1) %></td>
+                  <td><%= number_to_percentage(m[:player2_probability], precision: 1) %></td>
+                  <td>
+                    <strong>Favorito: <%= m[:predicted_winner] %> (<%= m[:confidence] %>%)</strong>
+                    <div class="mt-2">
+                      <button class="btn btn-sm btn-outline-secondary preview-prediction" data-player1-id="<%= @player1.id %>" data-player2-id="<%= @player2.id %>" data-date="<%= m[:date] %>">Ver predicción</button>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <div class="mt-3">
+            <%= form_with url: generate_predictions_predictions_path, method: :post do |f| %>
+              <%= hidden_field_tag :player1_id, @player1.id %>
+              <%= hidden_field_tag :player2_id, @player2.id %>
+              <%= submit_tag "Generar predicción(es)", class: "btn btn-primary" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Prediction preview modal -->
+  <div class="modal fade" id="predictionPreviewModal" tabindex="-1" role="dialog" aria-labelledby="predictionPreviewLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="predictionPreviewLabel">Previsualización de predicción</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="predictionPreviewContent">Cargando...</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.preview-prediction').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var player1Id = this.dataset.player1Id;
+        var player2Id = this.dataset.player2Id;
+        var date = this.dataset.date;
+        var content = document.getElementById('predictionPreviewContent');
+        content.innerText = 'Cargando...';
+        $('#predictionPreviewModal').modal('show');
+
+        fetch('<%= preview_predictions_path %>', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content') },
+          body: JSON.stringify({ player1_id: player1Id, player2_id: player2Id })
+        }).then(function(res) { return res.json(); }).then(function(json) {
+          if (json.error) {
+            content.innerHTML = '<div class="alert alert-danger">' + json.error + '</div>';
+            return;
+          }
+          content.innerHTML = '<p><strong>' + json.player1 + ':</strong> ' + json.player1_probability + '%</p>' +
+                              '<p><strong>' + json.player2 + ':</strong> ' + json.player2_probability + '%</p>' +
+                              '<p><strong>Predicted winner:</strong> ' + json.predicted_winner + ' (' + json.confidence + '%)</p>' +
+                              '<p class="text-muted">Fecha de partido: ' + date + '</p>';
+        }).catch(function(err) {
+          content.innerHTML = '<div class="alert alert-danger">Error al obtener la predicción.</div>';
+        });
+      });
+    });
+  });
+  </script>

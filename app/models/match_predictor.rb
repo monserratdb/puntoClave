@@ -1,7 +1,21 @@
-# Tennis prediction ML algorithm service
+# Tennis match prediction service
+# NOTE: this implementation is a heuristic / rule-based predictor (weighted combination
+# of handcrafted features). Although the file previously referred to "ML", the current
+# logic does not train or learn parameters from data — it uses fixed weights and
+# deterministic calculations. To convert this into a true ML model you would need to
+# extract features for historical matches, train a model (eg. logistic regression,
+# XGBoost) and then use that trained model here.
 class MatchPredictor
+  # Configurable weights (makes it easier to tune or replace with learned weights)
+  WEIGHTS = {
+    ranking: 0.3,
+    head_to_head: 0.2,
+    recent_form: 0.3,
+    points: 0.2
+  }.freeze
+
   def initialize
-    # Simple ML model based on ELO-like rating system and statistical analysis
+    # Intentionally empty. Keep this class stateless — it only computes predictions.
   end
   
   def predict_match_winner(player1, player2)
@@ -27,10 +41,15 @@ class MatchPredictor
         points_score[:player2] * 0.2
       )
       
-      # Normalize to get probability
+      # Normalize to get probability. Guard against total_score == 0.
       total_score = player1_score + player2_score
-      player1_probability = player1_score / total_score
-      player2_probability = player2_score / total_score
+      if total_score.to_f <= 0
+        player1_probability = 0.5
+        player2_probability = 0.5
+      else
+        player1_probability = player1_score / total_score
+        player2_probability = player2_score / total_score
+      end
       
       predicted_winner = player1_probability > player2_probability ? player1 : player2
       confidence = [player1_probability, player2_probability].max
@@ -62,6 +81,44 @@ class MatchPredictor
       }
     end
   end
+
+  # Compute probabilities for a hypothetical match without persisting a Prediction
+  def predict_match_probabilities(player1, player2)
+    ranking_score = calculate_ranking_score(player1, player2)
+    head_to_head_score = calculate_head_to_head_score(player1, player2)
+    recent_form_score = calculate_recent_form_score(player1, player2)
+    points_score = calculate_points_score(player1, player2)
+
+    player1_score = (
+      ranking_score[:player1] * 0.3 +
+      head_to_head_score[:player1] * 0.2 +
+      recent_form_score[:player1] * 0.3 +
+      points_score[:player1] * 0.2
+    )
+
+    player2_score = (
+      ranking_score[:player2] * 0.3 +
+      head_to_head_score[:player2] * 0.2 +
+      recent_form_score[:player2] * 0.3 +
+      points_score[:player2] * 0.2
+    )
+
+    total_score = player1_score + player2_score
+    if total_score.to_f <= 0
+      player1_probability = 0.5
+      player2_probability = 0.5
+    else
+      player1_probability = player1_score / total_score
+      player2_probability = player2_score / total_score
+    end
+
+    {
+      player1_probability: player1_probability,
+      player2_probability: player2_probability,
+      predicted_winner: player1_probability > player2_probability ? player1 : player2,
+      confidence: [player1_probability, player2_probability].max
+    }
+  end
   
   private
   
@@ -75,11 +132,14 @@ class MatchPredictor
     score2 = 1.0 / (rank2 + 1)
     
     total = score1 + score2
-    
-    {
-      player1: score1 / total,
-      player2: score2 / total
-    }
+    if total.to_f <= 0
+      { player1: 0.5, player2: 0.5 }
+    else
+      {
+        player1: score1 / total,
+        player2: score2 / total
+      }
+    end
   end
   
   def calculate_head_to_head_score(player1, player2)

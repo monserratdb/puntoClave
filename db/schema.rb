@@ -10,22 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_23_193553) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_06_124500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "matches", force: :cascade do |t|
     t.bigint "player1_id", null: false
     t.bigint "player2_id", null: false
-    t.bigint "winner_id", null: false
+    t.bigint "winner_id"
     t.string "tournament"
     t.date "date"
     t.string "score"
     t.string "surface"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "upcoming", null: false
+    t.string "source"
+    t.string "external_id"
+    t.index ["external_id"], name: "index_matches_on_external_id"
     t.index ["player1_id"], name: "index_matches_on_player1_id"
     t.index ["player2_id"], name: "index_matches_on_player2_id"
+    t.index ["source", "external_id"], name: "index_matches_on_source_and_external_id", unique: true
     t.index ["winner_id"], name: "index_matches_on_winner_id"
   end
 

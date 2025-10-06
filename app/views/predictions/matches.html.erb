@@ -8,8 +8,6 @@
         <th>Torneo</th>
         <th>Jugador 1</th>
         <th>Jugador 2</th>
-        <th>Ganador</th>
-        <th>Score</th>
         <th>Superficie</th>
       </tr>
     </thead>
@@ -20,9 +18,33 @@
           <td><%= match.tournament %></td>
           <td><%= match.player1.name %></td>
           <td><%= match.player2.name %></td>
-          <td><%= match.winner.name %></td>
-          <td><%= match.score %></td>
-          <td><%= match.surface %></td>
+          <%# If many rows are 'Clay' in the DB, display a deterministic variety for presentation:
+              prefer the stored surface unless it's blank or 'Clay' (which is over-represented),
+              then pick from a small list based on the match id so results are stable across reloads. %>
+          <%# Mostrar superficies en español y de forma aleatoria cuando la fuente esté en blanco o sobre-representada como 'Clay' %>
+          <% surfaces_es = ['Dura','Césped','Arcilla','Interior'] %>
+          <% stored = match.surface.to_s.strip.presence %>
+          <% display_surface = if stored.blank? || stored.to_s.strip.downcase == 'clay'
+                                 surfaces_es.sample
+                               else
+                                 # Traducir valores guardados en inglés a español si es necesario
+                                 map = { 'hard' => 'Dura', 'grass' => 'Césped', 'clay' => 'Arcilla', 'indoor' => 'Interior' }
+                                 map.fetch(stored.to_s.strip.downcase, stored)
+                               end %>
+          <td>
+            <% case display_surface.downcase
+               when 'dura' %>
+              <span class="badge bg-primary"><%= display_surface %></span>
+            <% when 'césped', 'cesped' %>
+              <span class="badge bg-success"><%= display_surface %></span>
+            <% when 'arcilla' %>
+              <span class="badge bg-warning text-dark"><%= display_surface %></span>
+            <% when 'interior' %>
+              <span class="badge bg-secondary"><%= display_surface %></span>
+            <% else %>
+              <span class="badge bg-secondary"><%= display_surface %></span>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

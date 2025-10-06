@@ -3,17 +3,17 @@ namespace :tennis do
   task scrape_data: :environment do
     puts "Starting ATP data scraping..."
     
-    scraper = AtpScraperService.new
+    api = TennisApiService.new
     
     # Scrape player rankings
     puts "Scraping player rankings..."
-    players = scraper.scrape_rankings
-    puts "✅ Scraped #{players.length} players"
+    players = api.fetch_atp_rankings
+    puts "✅ Scraped/updated #{players.length} players (source: #{api.last_source})"
     
     # Create sample matches
     puts "Creating sample matches..."
-    matches = scraper.scrape_recent_matches(30)
-    puts "✅ Created #{matches.length} sample matches"
+    matches = api.fetch_recent_matches(30)
+    puts "✅ Created/updated #{matches.length} matches (source: #{api.last_source})"
     
     puts "✅ Data scraping completed successfully!"
     puts "Total players: #{Player.count}"
@@ -25,7 +25,7 @@ namespace :tennis do
     puts "Generating sample predictions..."
     
     players = Player.limit(10)
-    predictor = TennisPredictor.new
+    predictor = MatchPredictor.new
     prediction_count = 0
     
     5.times do

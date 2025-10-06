@@ -7,9 +7,14 @@ Rails.application.routes.draw do
   
   resources :predictions, only: [:index, :show] do
     collection do
+      get :recent_matches
       post :predict
+      post :preview
       get :admin
       post :scrape_data
+      post :clear_history
+      post :generate_predictions
+      get :recent
       get :players
       get :matches
     end

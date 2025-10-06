@@ -1,17 +1,21 @@
 class AtpScraperService
   include HTTParty
+
+  attr_reader :last_source
   
   BASE_URL = 'https://www.atptour.com'
   
   def initialize
+    # Allow overriding or forcing sample via ENV for testing and CI
+    user_agent = ENV['SCRAPER_USER_AGENT'] || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     @headers = {
-      'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-      'Accept-Language' => 'en-US,en;q=0.5',
-      'Accept-Encoding' => 'gzip, deflate, br',
-      'DNT' => '1',
-      'Connection' => 'keep-alive',
-      'Upgrade-Insecure-Requests' => '1'
+      'User-Agent' => user_agent,
+      'Accept' => ENV['SCRAPER_ACCEPT'] || 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+      'Accept-Language' => ENV['SCRAPER_ACCEPT_LANGUAGE'] || 'en-US,en;q=0.5',
+      'Accept-Encoding' => ENV['SCRAPER_ACCEPT_ENCODING'] || 'gzip, deflate, br',
+      'DNT' => ENV['SCRAPER_DNT'] || '1',
+      'Connection' => ENV['SCRAPER_CONNECTION'] || 'keep-alive',
+      'Upgrade-Insecure-Requests' => ENV['SCRAPER_UPGRADE_INSECURE_REQUESTS'] || '1'
     }
     self.class.default_timeout 30
   end
@@ -21,7 +25,15 @@ class AtpScraperService
       url = "#{BASE_URL}/en/rankings/singles"
       puts "Trying to scrape: #{url}"
       
+      # Allow forcing sample data for environments where scraping is blocked
+      if ENV['FORCE_SAMPLE'] == 'true'
+        Rails.logger.info "FORCE_SAMPLE active: skipping ATP request and creating sample players"
+        @last_source = 'sample'
+        return create_sample_players
+      end
+
       response = HTTParty.get(url, headers: @headers, timeout: 30)
+      Rails.logger.info "AtpScraperService: GET #{url} -> #{response.code} (body bytes: #{response.body&.bytesize || 0})"
       puts "Response code: #{response.code}"
       
       if response.success?
@@ -34,6 +46,7 @@ class AtpScraperService
         
         if ranking_rows.empty?
           puts "No ranking data found, creating sample data instead"
+          @last_source = 'sample'
           return create_sample_players
         end
         
@@ -65,6 +78,7 @@ class AtpScraperService
         
         if players_data.empty?
           puts "No valid player data extracted, creating sample data"
+          @last_source = 'sample'
           return create_sample_players
         end
         
@@ -86,17 +100,22 @@ class AtpScraperService
           end
         end
         
-        Rails.logger.info "Successfully scraped #{players_data.length} players"
+        @last_source = 'atp'
+  Rails.logger.info "Successfully scraped #{players_data.length} players"
         players_data
       else
-        Rails.logger.error "Failed to fetch rankings: #{response.code} - #{response.message}"
-        puts "HTTP error, creating sample data instead"
-        create_sample_players
+          Rails.logger.error "Failed to fetch rankings: #{response.code} - #{response.message}"
+          Rails.logger.info "Response body (truncated): #{response.body.to_s[0..200]}"
+          puts "HTTP error, creating sample data instead"
+          @last_source = 'sample'
+          create_sample_players
       end
     rescue => e
       Rails.logger.error "Error scraping rankings: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n") if e.backtrace
       puts "Exception occurred: #{e.message}"
       puts "Creating sample data instead"
+      @last_source = 'sample'
       create_sample_players
     end
   end
