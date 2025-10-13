@@ -30,6 +30,16 @@ class TennisApiService
     scrape_espn_matches(limit)
   end
 
+  # Public wrapper to call the ESPN calendar/html scraper
+  def espn_calendar(limit = 50)
+    scrape_espn_matches(limit)
+  end
+
+  # Public wrapper to call ESPN scoreboard API parser (was private)
+  def espn_scoreboard(limit = 50)
+    fetch_espn_scoreboard_matches(limit)
+  end
+
   # Public wrapper to update players from ranking data
   def update_players(rankings_data)
     update_players_from_rankings(rankings_data)
@@ -38,6 +48,11 @@ class TennisApiService
   # Public wrapper to call 365Scores scraper directly from external scripts/tasks
   def scrape_365scores(limit = 50)
     scrape_365scores_matches(limit)
+  end
+
+  # Public helper to persist matches obtained from scrapers (calls private updater)
+  def persist_matches(matches_data)
+    update_matches_from_data(matches_data)
   end
 
   # Public wrapper to normalize player names (for external scripts)
@@ -214,7 +229,7 @@ class TennisApiService
   
   private
   
-  def fetch_from_api_tennis
+  def fetch_matches_from_api_tennis
     # API-Tennis integration (would need API key)
     # This is a placeholder for the actual API integration
     []
@@ -1093,7 +1108,41 @@ class TennisApiService
         match.winner = winner if winner && [p1.id, p2.id].include?(winner.id)
       end
 
-      match.tournament = match_data[:tournament] if match_data[:tournament]
+      # Ensure tournament is set; scrapers sometimes omit it which breaks validation
+      if match_data[:tournament].present?
+        match.tournament = match_data[:tournament]
+      else
+        # If tournament is blank and match has none, provide a sensible default based on source
+        unless match.tournament.present?
+          default_tournament = case match_data[:source].to_s.downcase
+                               when '365scores' then '365Scores Event'
+                               when 'espn' then 'ESPN Tournament'
+                               else 'Tournament'
+                               end
+          match.tournament = default_tournament
+        end
+      end
+      # Update date when provided by the scraper (ensure we persist new dates)
+      if match_data[:date]
+        parsed_date = nil
+        if match_data[:date].is_a?(String)
+          begin
+            parsed_date = Date.parse(match_data[:date])
+          rescue
+            parsed_date = nil
+          end
+        else
+          parsed_date = match_data[:date]
+        end
+
+        if parsed_date
+          old_date = match.date
+          match.date = parsed_date
+          if old_date != match.date
+            Rails.logger.info "TennisApiService: updating match date for #{p1&.name} vs #{p2&.name} from #{old_date.inspect} to #{match.date} (source=#{match_data[:source]} external_id=#{match_data[:external_id]})"
+          end
+        end
+      end
       match.score = match_data[:score] if match_data[:score]
       match.surface = match_data[:surface] if match_data[:surface]
       # If surface still blank, try to guess from tournament or pick a plausible default

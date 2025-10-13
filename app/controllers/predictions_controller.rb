@@ -97,7 +97,13 @@ class PredictionsController < ApplicationController
   end
 
   def matches
-    @matches = Match.order(date: :desc).limit(100)
+    # Show upcoming matches by default (today or later). Fall back to recent past if none found.
+    upcoming = Match.where('date >= ?', Date.today).order(date: :asc).limit(200)
+    if upcoming.any?
+      @matches = upcoming
+    else
+      @matches = Match.order(date: :desc).limit(100)
+    end
   end
 
   # Returns upcoming matches between two selected players and per-match prediction probabilities
