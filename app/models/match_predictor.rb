@@ -54,14 +54,20 @@ class MatchPredictor
       predicted_winner = player1_probability > player2_probability ? player1 : player2
       confidence = [player1_probability, player2_probability].max
       
-      # Create prediction record
-      prediction = Prediction.create!(
+      # Create prediction record. Use non-bang create and log validation errors to
+      # help diagnose why some combinations fail to persist.
+      prediction = Prediction.create(
         player1: player1,
         player2: player2,
         predicted_winner: predicted_winner,
         confidence: confidence,
         prediction_date: Time.current
       )
+
+      unless prediction.persisted?
+        # Log detailed validation messages so we can debug missing data/constraints
+        Rails.logger.warn "Prediction not saved for #{player1.name} vs #{player2.name}: #{prediction.errors.full_messages.join(', ')}"
+      end
       
       {
         predicted_winner: predicted_winner,
@@ -70,6 +76,9 @@ class MatchPredictor
         player2_probability: player2_probability,
         prediction: prediction
       }
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error "RecordInvalid while predicting match: #{e.record.errors.full_messages.join(', ')}"
+      prediction = nil
     rescue => e
       Rails.logger.error "Error predicting match: #{e.message}"
       {
@@ -77,7 +86,7 @@ class MatchPredictor
         confidence: 0.5,
         player1_probability: 0.5,
         player2_probability: 0.5,
-        prediction: nil
+        prediction: prediction
       }
     end
   end
@@ -143,18 +152,21 @@ class MatchPredictor
   end
   
   def calculate_head_to_head_score(player1, player2)
-    # Check historical matches between these players
-    matches = Match.where(
+    # Check historical matches between these players using a single grouped query to
+    # avoid multiple COUNT() queries and reduce DB round trips.
+    matches_scope = Match.where(
       "(player1_id = ? AND player2_id = ?) OR (player1_id = ? AND player2_id = ?)",
       player1.id, player2.id, player2.id, player1.id
     )
-    
-    return { player1: 0.5, player2: 0.5 } if matches.empty?
-    
-    player1_wins = matches.where(winner_id: player1.id).count
-    player2_wins = matches.where(winner_id: player2.id).count
-    total_matches = matches.count
-    
+
+    totals = matches_scope.group(:winner_id).count
+    total_matches = totals.values.sum
+
+    return { player1: 0.5, player2: 0.5 } if total_matches == 0
+
+    player1_wins = totals[player1.id] || 0
+    player2_wins = totals[player2.id] || 0
+
     player1_h2h = (player1_wins.to_f / total_matches)
     player2_h2h = (player2_wins.to_f / total_matches)
     

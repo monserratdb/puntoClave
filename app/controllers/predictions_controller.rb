@@ -13,8 +13,11 @@ class PredictionsController < ApplicationController
   end
 
   def predict
-    player1 = Player.find(params[:player1_id])
-    player2 = Player.find(params[:player2_id])
+    # Accept params either at top-level or nested under `prediction` (form helpers sometimes produce both)
+    p1_id = params[:player1_id].presence || params.dig(:prediction, :player1_id) || params.dig(:prediction, 'player1_id')
+    p2_id = params[:player2_id].presence || params.dig(:prediction, :player2_id) || params.dig(:prediction, 'player2_id')
+    player1 = Player.find(p1_id)
+    player2 = Player.find(p2_id)
     
     if player1.id == player2.id
       respond_to do |format|
@@ -32,12 +35,22 @@ class PredictionsController < ApplicationController
     respond_to do |format|
       format.html { render :show }
       format.json {
-        render json: {
-          predicted_winner: @prediction_result[:predicted_winner].name,
-          confidence: (@prediction_result[:confidence] * 100).round(1),
-          player1: @player1.name,
-          player2: @player2.name
-        }
+        prediction = @prediction_result[:prediction]
+        if prediction && prediction.persisted?
+          render json: {
+            predicted_winner: @prediction_result[:predicted_winner].name,
+            predicted_winner_name: @prediction_result[:predicted_winner].name,
+            confidence: (@prediction_result[:confidence] * 100).round(1),
+            confidence_percent: (@prediction_result[:confidence] * 100).round(1),
+            player1: @player1.name,
+            player2: @player2.name,
+            persisted: true,
+            prediction_id: prediction.id
+          }
+        else
+          errors = prediction ? prediction.errors.full_messages : []
+          render json: { error: 'No se pudo guardar la predicción', errors: errors, persisted: false }, status: :unprocessable_entity
+        end
       }
     end
   rescue ActiveRecord::RecordNotFound
@@ -190,8 +203,10 @@ class PredictionsController < ApplicationController
 
   # Return a non-persisted prediction (preview) for a player pair
   def preview
-    player1 = Player.find(params[:player1_id])
-    player2 = Player.find(params[:player2_id])
+    p1_id = params[:player1_id].presence || params.dig(:prediction, :player1_id) || params.dig(:prediction, 'player1_id')
+    p2_id = params[:player2_id].presence || params.dig(:prediction, :player2_id) || params.dig(:prediction, 'player2_id')
+    player1 = Player.find(p1_id)
+    player2 = Player.find(p2_id)
 
     predictor = MatchPredictor.new
     result = predictor.predict_match_probabilities(player1, player2)
@@ -202,7 +217,9 @@ class PredictionsController < ApplicationController
       player1_probability: (result[:player1_probability] * 100).round(1),
       player2_probability: (result[:player2_probability] * 100).round(1),
       predicted_winner: result[:predicted_winner].name,
-      confidence: (result[:confidence] * 100).round(1)
+      predicted_winner_name: result[:predicted_winner].name,
+      confidence: (result[:confidence] * 100).round(1),
+      confidence_percent: (result[:confidence] * 100).round(1)
     }
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Jugador no encontrado' }, status: :not_found
@@ -212,20 +229,56 @@ class PredictionsController < ApplicationController
   def recent_matches
     player1 = Player.find(params[:player1_id])
     player2 = Player.find(params[:player2_id])
-    api = TennisApiService.new
-
-    # Let the service try to fetch recent matches and persist them into DB (it calls update_matches_from_data)
-    begin
-      api.fetch_recent_matches(100)
-    rescue => e
-      Rails.logger.debug "fetch_recent_matches failed: #{e.message}"
-    end
-
-    # Now query the DB for matches between these two players (either order), include player associations
+    # First try local DB for matches between these players. Avoid triggering network scrapes
+    # on every request because scrapers are slow and cause timeouts for the UI.
     db_matches = Match.includes(:player1, :player2, :winner)
                       .where("(player1_id = ? AND player2_id = ?) OR (player1_id = ? AND player2_id = ?)", player1.id, player2.id, player2.id, player1.id)
                       .order(date: :desc)
                       .limit(50)
+
+    # If we already have matches in DB, return them immediately. Otherwise, enqueue a background
+    # job to fetch recent matches and respond quickly to the client with a queued status.
+    if db_matches.any?
+      matches = db_matches.map do |m|
+        surfaces_es = ['Dura', 'C\u00e9sped', 'Arcilla', 'Interior']
+        stored = m.surface.to_s.strip.presence
+        display_surface = if stored.blank? || stored.downcase == 'clay'
+                            surfaces_es.sample
+                          else
+                            map = { 'hard' => 'Dura', 'grass' => 'C\u00e9sped', 'clay' => 'Arcilla', 'indoor' => 'Interior' }
+                            map.fetch(stored.downcase, stored)
+                          end
+
+        {
+          id: m.id,
+          player1: m.player1&.name,
+          player2: m.player2&.name,
+          date: m.date,
+          tournament: m.tournament,
+          surface: display_surface,
+          score: m.score,
+          winner: (m.winner&.name),
+          source: m.source,
+          external_id: m.external_id
+        }
+      end
+
+      render json: { source: 'db', matches: matches }
+      return
+    end
+
+    # No matches in DB: enqueue background fetch and return a lightweight response.
+    # If administrators want to force an on-demand fetch for debugging they can use
+    # the admin scrape endpoint which runs synchronously.
+    begin
+      FetchRecentMatchesJob.perform_later(100)
+      Rails.logger.info "Enqueued FetchRecentMatchesJob for recent_matches request (players: #{player1.id}, #{player2.id})"
+    rescue => e
+      Rails.logger.debug "Failed to enqueue FetchRecentMatchesJob: #{e.message}"
+    end
+
+    render json: { source: 'queued', matches: [], message: 'No local matches found, fetching in background' }
+    return
 
     matches = db_matches.map do |m|
       # determine a presentation surface: if stored is blank or 'Clay' (overrepresented),

@@ -11,10 +11,10 @@
           <div class="row g-3">
             <div class="col-md-6">
               <label for="player1_id" class="form-label">Jugador 1</label>
-              <%= form.select :player1_id, 
-                    options_from_collection_for_select(@players, :id, :name), 
-                    { prompt: "Selecciona el primer jugador..." }, 
-                    { class: "form-select", required: true } %>
+      <%= form.select :player1_id, 
+        options_from_collection_for_select(@players, :id, :name), 
+        { prompt: "Selecciona el primer jugador..." }, 
+        { class: "form-select", required: true, name: 'player1_id' } %>
               <div class="invalid-feedback">
                 Por favor selecciona el primer jugador.
               </div>
@@ -22,10 +22,10 @@
             
             <div class="col-md-6">
               <label for="player2_id" class="form-label">Jugador 2</label>
-              <%= form.select :player2_id, 
-                    options_from_collection_for_select(@players, :id, :name), 
-                    { prompt: "Selecciona el segundo jugador..." }, 
-                    { class: "form-select", required: true } %>
+      <%= form.select :player2_id, 
+        options_from_collection_for_select(@players, :id, :name), 
+        { prompt: "Selecciona el segundo jugador..." }, 
+        { class: "form-select", required: true, name: 'player2_id' } %>
               <div class="invalid-feedback">
                 Por favor selecciona el segundo jugador.
               </div>
@@ -145,7 +145,10 @@ if (generateBtn && form) {
       // Build JSON payload and include CSRF token in header
       const payload = { player1_id: p1, player2_id: p2 };
       const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-      const url = form.action || '<%= predict_predictions_path %>';
+  // Use preview endpoint (non-persisted) for in-page generation to avoid
+  // redirects or unexpected server-side behavior. This returns JSON with
+  // predicted_winner and confidence so it's ideal for UI previews.
+  const url = '<%= preview_predictions_path %>';
 
       console.log('Generating prediction', payload, 'POST', url);
 
@@ -163,12 +166,52 @@ if (generateBtn && form) {
         return response.json();
       })
       .then(data => {
-        let html = `<h2>El jugador con más probabilidad de ganar es:</h2><h1 class='text-success'>${data.predicted_winner}</h1><h4>Confianza: <span class='badge bg-success'>${data.confidence}%</span></h4>`;
+        if (data.error) {
+          showPredictionModal(`<div class="alert alert-danger">${data.error}</div>`);
+          return;
+        }
+
+        // preview returns predicted_winner (name) and confidence in percent
+        let winner = data.predicted_winner || data.predicted_winner_name || data.player1 || '';
+        let confidence = data.confidence || data.confidence_percent || (data.confidence ? (data.confidence * 100).toFixed(1) : 'N/A');
+        let html = `<h2>El jugador con más probabilidad de ganar es:</h2><h1 class='text-success'>${winner}</h1><h4>Confianza: <span class='badge bg-success'>${confidence}%</span></h4><div id="prediction-save-status" class="mt-3"></div>`;
         showPredictionModal(html);
+
+        // Also persist the prediction to history by calling the server-side `predict` endpoint.
+        // We call this after preview so the UI remains responsive and the user sees the result quickly.
+        const predictUrl = '<%= predict_predictions_path %>';
+        fetch(predictUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-Token': csrf || ''
+          },
+          body: JSON.stringify(payload)
+        })
+        .then(r => r.json().then(body => ({ ok: r.ok, status: r.status, body })))
+        .then(({ ok, status, body }) => {
+          const statusEl = document.getElementById('prediction-save-status');
+          if (!statusEl) return;
+          if (ok) {
+            statusEl.innerHTML = `<div class="text-success">✅ Guardada en historial</div>`;
+            // Refresh recent predictions panel to show the newly saved prediction
+            try { fetchRecentPredictions(); } catch (e) { console.debug('Could not refresh recent predictions', e); }
+          } else {
+            // Server returned an error payload; show message
+            const msg = (body && body.error) ? body.error : `Error al guardar (status ${status})`;
+            statusEl.innerHTML = `<div class="text-danger">⚠️ ${msg}</div>`;
+          }
+        })
+        .catch(err => {
+          const statusEl = document.getElementById('prediction-save-status');
+          if (statusEl) statusEl.innerHTML = `<div class="text-danger">⚠️ Error guardando predicción</div>`;
+          console.error('Error persisting prediction', err);
+        });
       })
       .catch(err => {
         console.error('Prediction error', err);
-        alert('Hubo un error al generar la predicción. Reintentar.');
+        showPredictionModal(`<div class="alert alert-danger">Hubo un error al generar la predicción. Reintentar.</div>`);
       });
     } catch (err) {
       console.error('Generate prediction handler failed', err);

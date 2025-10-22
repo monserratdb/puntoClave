@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_06_124500) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_22_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,8 +27,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_124500) do
     t.string "status", default: "upcoming", null: false
     t.string "source"
     t.string "external_id"
+    t.index ["date"], name: "index_matches_on_date"
     t.index ["external_id"], name: "index_matches_on_external_id"
+    t.index ["player1_id", "player2_id", "date"], name: "index_matches_on_p1_p2_date"
     t.index ["player1_id"], name: "index_matches_on_player1_id"
+    t.index ["player2_id", "player1_id", "date"], name: "index_matches_on_p2_p1_date"
     t.index ["player2_id"], name: "index_matches_on_player2_id"
     t.index ["source", "external_id"], name: "index_matches_on_source_and_external_id", unique: true
     t.index ["winner_id"], name: "index_matches_on_winner_id"
