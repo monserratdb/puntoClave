@@ -10,6 +10,9 @@ class Player < ApplicationRecord
   validates :name, presence: true
   validates :country, presence: true
   
+  # Simple favorite flag so users can mark players they follow frequently
+  scope :favorites, -> { where(favorite: true) }
+  
   def all_matches
     Match.where("player1_id = ? OR player2_id = ?", id, id)
   end

@@ -1,5 +1,7 @@
 class PredictionsController < ApplicationController
   def index
+    # Provide favorites to the view so users can quickly pick them from the prediction form
+    @favorites = Player.where(favorite: true).order(:rank)
     @players = Player.order(:rank)
     @recent_predictions = Prediction.includes(:player1, :player2, :predicted_winner)
                                    .order(prediction_date: :desc)
@@ -106,7 +108,20 @@ class PredictionsController < ApplicationController
   end
 
   def players
-    @players = Player.order(:rank)
+    # Show favorite players grouped at the top to make them easily accessible
+    @favorites = Player.where(favorite: true).order(:rank)
+    # Exclude favorites from the main listing so they're not duplicated
+    @players = Player.where(favorite: [false, nil]).order(:rank)
+  end
+
+  # Toggle favorite flag for a player (simple POST endpoint)
+  def toggle_favorite
+    player = Player.find(params[:id])
+    player.update!(favorite: !player.favorite)
+    msg = player.favorite ? "#{player.name} añadido a favoritos" : "#{player.name} removido de favoritos"
+    redirect_back fallback_location: players_path, notice: msg
+  rescue ActiveRecord::RecordNotFound
+    redirect_to players_path, alert: 'Jugador no encontrado'
   end
 
   def matches

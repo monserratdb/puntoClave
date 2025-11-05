@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get "predict", to: "predictions#index"
   get "players", to: "predictions#players" 
   get "matches", to: "predictions#matches"
+  post "players/:id/toggle_favorite", to: "predictions#toggle_favorite", as: :toggle_favorite_player
   
   resources :predictions, only: [:index, :show] do
     collection do

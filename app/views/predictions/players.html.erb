@@ -8,15 +8,36 @@
         <th>Nombre</th>
         <th>Pais</th>
         <th>Puntos</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
+      <% if @favorites.present? %>
+        <tr class="table-light">
+          <td colspan="5"><strong>Favoritos</strong></td>
+        </tr>
+        <% @favorites.each do |player| %>
+          <tr>
+            <td><%= player.rank %></td>
+            <td><%= player.name %></td>
+            <td><%= player.country %></td>
+            <td><%= player.points %></td>
+            <td>
+              <%= button_to 'Quitar ♥', toggle_favorite_player_path(player), method: :post, class: 'btn btn-sm btn-outline-danger' %>
+            </td>
+          </tr>
+        <% end %>
+        <tr><td colspan="5">&nbsp;</td></tr>
+      <% end %>
       <% @players.each do |player| %>
         <tr>
           <td><%= player.rank %></td>
           <td><%= player.name %></td>
           <td><%= player.country %></td>
           <td><%= player.points %></td>
+          <td>
+            <%= button_to 'Agregar ♥', toggle_favorite_player_path(player), method: :post, class: 'btn btn-sm btn-outline-primary' %>
+          </td>
         </tr>
       <% end %>
     </tbody>

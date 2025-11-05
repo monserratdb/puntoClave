@@ -70,6 +70,22 @@
       </div>
     </div>
     
+    <% if @favorites.present? %>
+      <div class="card shadow-sm mt-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Tus favoritos</h5>
+        </div>
+        <div class="card-body">
+          <p class="text-muted small">Haz click en un jugador para seleccionarlo como Jugador 1 en el formulario.</p>
+          <div class="list-group">
+            <% @favorites.each do |fav| %>
+              <button type="button" class="list-group-item list-group-item-action favorite-player" data-player-id="<%= fav.id %>" data-player-name="<%= fav.name %>"><%= fav.name %> <small class="text-muted">#<%= fav.rank %></small></button>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    
     <div class="card shadow-sm mt-4">
       <div class="card-header">
         <h5 class="card-title mb-0">¿Cómo funciona?</h5>
@@ -313,4 +329,78 @@ function fetchRecentPredictions() {
 
 // Start polling
 setInterval(fetchRecentPredictions, 6000);
+</script>
+
+<script>
+// Use event delegation so the handler works with Turbo navigation and doesn't need re-attaching
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.favorite-player');
+  if (!btn) return;
+
+  const playerId = btn.dataset.playerId;
+  const playerName = btn.dataset.playerName;
+  const select1 = document.querySelector('select[name="player1_id"]');
+  const select2 = document.querySelector('select[name="player2_id"]');
+  if (!select1 || !select2) return;
+
+  function ensureOption(select, id, name) {
+    let opt = select.querySelector(`option[value="${id}"]`);
+    if (!opt) {
+      opt = document.createElement('option');
+      opt.value = id;
+      opt.text = name;
+      select.appendChild(opt);
+    }
+    return opt;
+  }
+
+  const val1 = select1.value;
+  const val2 = select2.value;
+
+  // Selection rules:
+  // - If player1 is empty -> set player1
+  // - Else if player1 is this id -> toggle it off (and if player2 present, shift player2->player1)
+  // - Else if player2 is empty and id != player1 -> set player2
+  // - Else if player2 is this id -> toggle it off
+  // - Else (both filled and id different) -> start a new pair: set player1 = id and clear player2
+
+  if (!val1) {
+    ensureOption(select1, playerId, playerName);
+    select1.value = playerId;
+  } else if (val1 === playerId) {
+    // toggle off player1
+    if (val2) {
+      // shift player2 into player1
+      select1.value = val2;
+      select2.value = '';
+    } else {
+      select1.value = '';
+    }
+  } else if (!val2 && val1 !== playerId) {
+    ensureOption(select2, playerId, playerName);
+    select2.value = playerId;
+  } else if (val2 === playerId) {
+    // toggle off player2
+    select2.value = '';
+  } else {
+    // both filled and clicked a third different favorite: restart selection
+    ensureOption(select1, playerId, playerName);
+    select1.value = playerId;
+    select2.value = '';
+  }
+
+  // Update active classes on favorite buttons to reflect current selections
+  document.querySelectorAll('.favorite-player').forEach(b => {
+    b.classList.remove('active');
+    const id = b.dataset.playerId;
+    if (id === select1.value || id === select2.value) b.classList.add('active');
+  });
+
+  // Trigger change handlers so UI updates (e.g., checkRecentMatchesBtn visibility)
+  select1.dispatchEvent(new Event('change', { bubbles: true }));
+  select2.dispatchEvent(new Event('change', { bubbles: true }));
+
+  // Scroll to the form to show the selection
+  select1.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
 </script>
